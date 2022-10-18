@@ -2,7 +2,7 @@
     "name": "devtical/compack",
     "description": "Composer Package Generator",
     "keywords": ["composer", "package", "generator", "console", "cli"],
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "support": {
         "issues": "https://github.com/devtical/compack/issues",
