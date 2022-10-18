@@ -9,7 +9,13 @@
 
 ## Introduction
 
-**[WIP]**
+> **[WIP]**
+>
+> Set your global `minimum-stability` to `dev` :
+> 
+> ```
+> "minimum-stability": "dev"
+> ```
 
 Template-based composer package generator.
 
