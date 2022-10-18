@@ -30,12 +30,12 @@ jobs:
         extensions: mbstring
         coverage: none
 
-    - name: Install Pint
+    - name: Composer
       run: |
-        composer global require laravel/pint
+        composer install
 
     - name: Run Pint
-      run: pint
+      run: ./vendor/bin/pint --test
 
     - name: Execute tests
-      run: composer test
+      run: php compack test
