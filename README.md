@@ -1,4 +1,13 @@
-# Compack
+<p align="center"><img src="./art/logo.svg" alt="Logo Laravel Dusk"></p>
+
+<p align="center">
+<a href="https://github.com/devtical/compack/actions"><img src="https://github.com/devtical/compack/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/devtical/compack"><img src="https://img.shields.io/packagist/dt/devtical/compack" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/devtical/compack"><img src="https://img.shields.io/packagist/v/devtical/compack" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/devtical/compack"><img src="https://img.shields.io/packagist/l/devtical/compack" alt="License"></a>
+</p>
+
+## Introduction
 
 [WIP] Composer package generator.
 
