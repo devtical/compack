@@ -9,7 +9,13 @@
 
 ## Introduction
 
-[WIP] Composer package generator.
+**[WIP]**
+
+Template-based composer package generator.
+
+- [Generic PHP](https://github.com/devtical/compack-template-generic)
+- Laravel (soon)
+- Yours
 
 ## Installation
 
