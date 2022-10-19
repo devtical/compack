@@ -41,12 +41,7 @@ You could also find the composer's global installation path by running `composer
 
 Once installed, the `compack new` command will create a new package in the directory you specify.
 
-```bash
-▶ compack new
-
-Author Name [Wahyu Kristianto]:
-> 
-```
+![Usage](./art/cast.gif)
 
 ## Change log
 
