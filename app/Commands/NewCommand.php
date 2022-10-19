@@ -59,8 +59,15 @@ class NewCommand extends Command
         $this->notify('Your package has been created', $this->data['targetPath']);
     }
 
+    /**
+     * Download and extract template repository.
+     *
+     * @return mixed
+     */
     private function download()
     {
+        $explode = explode('/', $this->data['templateRepo']);
+        $templateOrg = $explode[0];
         $response = Http::get($this->data['templateUrl']);
         $zipPath = md5($this->data['templateRepo']).'.zip';
 
@@ -77,10 +84,19 @@ class NewCommand extends Command
         $zip->close();
 
         Storage::move($this->data['templateRepo'].'-'.$this->data['templateBranch'], $this->data['targetPath']);
-        Storage::deleteDirectory(explode('/', $this->data['templateRepo'])[0]);
+
+        $this->data['vendorSlug'] == $templateOrg
+            ? Storage::deleteDirectory($this->data['templateRepo'])
+            : Storage::deleteDirectory($templateOrg);
+
         Storage::delete($zipPath);
     }
 
+    /**
+     * Setup package.
+     *
+     * @return mixed
+     */
     private function setup()
     {
         $replacements = [
@@ -132,6 +148,11 @@ class NewCommand extends Command
         $bar->finish();
     }
 
+    /**
+     * Run command
+     *
+     * @return mixed
+     */
     private function callCommand($command)
     {
         return trim(shell_exec($command));
