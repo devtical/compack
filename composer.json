@@ -1,6 +1,6 @@
 {
     "name": "devtical/compack",
-    "description": "Composer Package Generator",
+    "description": "Template-based composer package generator",
     "keywords": ["composer", "package", "generator", "console", "cli"],
     "type": "library",
     "license": "MIT",
