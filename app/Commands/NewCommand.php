@@ -56,23 +56,7 @@ class NewCommand extends Command
 
         $this->download();
         $this->setup();
-
-        $this->newLine(2);
-
-        $dataTable = collect($this->data)
-            ->map(function ($value, $key) {
-                return [
-                    'key' => $key,
-                    'value' => $value,
-                ];
-            })->toArray();
-
-        $this->table(
-            ['Key', 'Value'],
-            $dataTable
-        );
-
-        $this->notify($this->data['targetPath'].' has been created', 'Love beautiful..');
+        $this->notify('Your package has been created', $this->data['targetPath']);
     }
 
     private function download()
@@ -114,7 +98,6 @@ class NewCommand extends Command
         ];
 
         $files = Storage::allFiles();
-
         $bar = $this->output->createProgressBar(count($files));
         $bar->start();
 
