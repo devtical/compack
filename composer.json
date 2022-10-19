@@ -47,6 +47,10 @@
             "pestphp/pest-plugin": true
         }
     },
+    "scripts": {
+        "format": "vendor/bin/pint",
+        "test": "vendor/bin/pest --colors=always"
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "bin": ["compack"]
