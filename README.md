@@ -15,6 +15,7 @@ Template-based composer package generator.
 |---|---|
 | [Generic PHP](https://github.com/devtical/compack-template-generic) | `devtical/compack-template-generic`| 
 | [Laravel](https://github.com/devtical/compack-template-laravel) | `devtical/compack-template-laravel` |
+| Yours  | *Docs soon* |
 
 ## Installation
 
