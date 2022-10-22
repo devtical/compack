@@ -147,6 +147,7 @@ class NewCommand extends Command
 
             $renameFiles = [
                 'ExampleClass.php' => $this->data['packageClassName'].'.php',
+                'ExampleServiceProvider.php' => $this->data['packageClassName'].'ServiceProvider.php',
                 'ExampleTest.php' => $this->data['packageClassName'].'Test.php',
             ];
 
