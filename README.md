@@ -39,13 +39,22 @@ Once installed, the `compack new` command will create a new package in the direc
 
 ![Usage](./art/cast.gif)
 
+### Template from directory
+
+You can refer to the template from your local folder if you don't want to use the templates we provide on GitHub. This is also useful if you are developing templates.
+
+```bash
+Template Repository [devtical/compack-template-generic]:
+> /Users/kristories/templates/my-awesome-template
+```
+
 ## Change log
 
 Please see the [changelog](CHANGELOG.md) for more information on what has changed recently.
 
 ## Testing
 
-``` bash
+```bash
 $ composer test
 ```
 
