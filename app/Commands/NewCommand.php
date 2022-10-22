@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
-use League\Flysystem\Filesystem;
-use League\Flysystem\Local\LocalFilesystemAdapter;
 use ZipArchive;
 
 class NewCommand extends Command
@@ -37,8 +35,6 @@ class NewCommand extends Command
      */
     public function handle()
     {
-        $this->dir = getcwd();
-        $this->fs = new Filesystem(new LocalFilesystemAdapter($this->dir));
         $this->data['authorName'] = $this->ask('Author Name', $this->callCommand('git config user.name'));
         $this->data['authorUsername'] = $this->ask('Author Username', Str::slug($this->data['authorName']));
         $this->data['authorEmail'] = $this->ask('Author Email', $this->callCommand('git config user.email'));
@@ -66,30 +62,52 @@ class NewCommand extends Command
      */
     private function download()
     {
-        $explode = explode('/', $this->data['templateRepo']);
-        $templateOrg = $explode[0];
-        $response = Http::get($this->data['templateUrl']);
-        $zipPath = md5($this->data['templateRepo']).'.zip';
+        $isPath = realpath($this->data['templateRepo']);
 
-        if ($response->status() != 200) {
-            return $this->error('Invalid template repository');
+        if ($isPath) {
+            config([
+                'filesystems.disks' => array_merge(config('filesystems.disks'), [
+                    'relative' => [
+                        'driver' => 'local',
+                        'root' => $isPath,
+                    ],
+                ]),
+            ]);
+
+            $files = Storage::disk('relative')->allFiles();
+
+            foreach ($files as $file) {
+                if (! Str::of($file)->contains('.git/')) {
+                    $this->info($file);
+                    Storage::put($this->data['targetPath'].'/'.$file, Storage::disk('relative')->get($file));
+                }
+            }
+        } else {
+            $explode = explode('/', $this->data['templateRepo']);
+            $templateOrg = $explode[0];
+            $response = Http::get($this->data['templateUrl']);
+            $zipPath = md5($this->data['templateRepo']).'.zip';
+
+            if ($response->status() != 200) {
+                return $this->error('Invalid template repository');
+            }
+
+            Storage::put($zipPath, $response->body());
+            Storage::deleteDirectory($this->data['targetPath']);
+
+            $zip = new ZipArchive;
+            $zip->open($zipPath, ZipArchive::CHECKCONS);
+            $zip->extractTo(dirname($this->data['templateRepo']));
+            $zip->close();
+
+            Storage::move($this->data['templateRepo'].'-'.$this->data['templateBranch'], $this->data['targetPath']);
+
+            $this->data['vendorSlug'] == $templateOrg
+                ? Storage::deleteDirectory($this->data['templateRepo'])
+                : Storage::deleteDirectory($templateOrg);
+
+            Storage::delete($zipPath);
         }
-
-        Storage::put($zipPath, $response->body());
-        Storage::deleteDirectory($this->data['targetPath']);
-
-        $zip = new ZipArchive;
-        $zip->open($zipPath, ZipArchive::CHECKCONS);
-        $zip->extractTo(dirname($this->data['templateRepo']));
-        $zip->close();
-
-        Storage::move($this->data['templateRepo'].'-'.$this->data['templateBranch'], $this->data['targetPath']);
-
-        $this->data['vendorSlug'] == $templateOrg
-            ? Storage::deleteDirectory($this->data['templateRepo'])
-            : Storage::deleteDirectory($templateOrg);
-
-        Storage::delete($zipPath);
     }
 
     /**
